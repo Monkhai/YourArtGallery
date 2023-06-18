@@ -19,6 +19,7 @@ export interface Art {
 
 const useArtwork = () => {
   const [art, setArt] = useState<Art[]>();
+
   useEffect(() => {
     instance
       .get('artworks', { params: { size: 20 } })
