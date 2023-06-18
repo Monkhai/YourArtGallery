@@ -9,12 +9,10 @@ const getToken = async () => {
       client_id: clientId,
       client_secret: clientSecret,
     });
-
     const token = response.data.token;
-
     return token;
   } catch (error) {
-    console.error(error);
+    console.log(error);
     throw error;
   }
 };
@@ -22,16 +20,7 @@ const getToken = async () => {
 const instance = axios.create({
   baseURL: 'https://api.artsy.net/api/',
   timeout: 10000,
-  headers: { 'X-Xapp-Token': '' }, // Placeholder, will be updated with the actual token
-});
-
-const initializeInstance = async () => {
-  const token = await getToken();
-  instance.defaults.headers['X-Xapp-Token'] = token;
-};
-
-initializeInstance().catch((error) => {
-  console.error('Failed to initialize instance:', error);
+  headers: { 'X-Xapp-Token': await getToken() }, // Placeholder, will be updated with the actual token
 });
 
 export { instance };

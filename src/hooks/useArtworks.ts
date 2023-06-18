@@ -17,7 +17,7 @@ export interface Art {
   description?: string;
 }
 
-const useArtwork = (query: string) => {
+const useArtwork = () => {
   const [art, setArt] = useState<Art[]>();
   useEffect(() => {
     instance
@@ -26,7 +26,7 @@ const useArtwork = (query: string) => {
         setArt(response.data._embedded.artworks);
       })
       .catch((err) => console.log(err));
-  }, [query]);
+  }, []);
   return art;
 };
 export default useArtwork;

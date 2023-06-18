@@ -14,7 +14,7 @@ interface Props {
 }
 
 const HomeScreen = ({ onArtClick }: Props) => {
-  const art = useArtwork('artworks');
+  const art = useArtwork();
 
   return (
     <>
