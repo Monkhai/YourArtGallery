@@ -18,16 +18,24 @@ export interface Art {
 }
 
 const useArtwork = () => {
-  const [art, setArt] = useState<Art[]>();
+  const [art, setArt] = useState<Art[]>([]);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
+    getArtworks();
+  }, []);
+
+  const getArtworks = () => {
     instance
-      .get('artworks', { params: { size: 20 } })
+      .get('artworks', { params: { size: 20, page } })
       .then((response) => {
-        setArt(response.data._embedded.artworks);
+        setArt((prevArt) => [...prevArt, ...response.data._embedded.artworks]);
+        setPage((prevPage) => prevPage + 1);
       })
       .catch((err) => console.log(err));
-  }, []);
-  return art;
+  };
+
+  return { art, loadMore: getArtworks };
 };
+
 export default useArtwork;
