@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { Artist } from '../hooks/useGetArtist';
+import { Art } from '../hooks/useGetArtwork';
 
 const instance = axios.create({
   baseURL: 'https://api.artsy.net/api/',
@@ -44,4 +46,38 @@ instance.interceptors.request.use(
   }
 );
 
+export interface ArtworkResponse {
+  total_count?: number | null;
+  _embedded: {
+    artworks: Art[];
+  };
+  _links: {
+    next: {
+      href: string;
+    };
+    self: {
+      href: string;
+    };
+  };
+}
+
+interface Params {
+  size?: number;
+  cursor?: string;
+}
+
+class APIClient {
+  endpoint: string;
+
+  constructor(endpoint: string) {
+    this.endpoint = endpoint;
+  }
+
+  getArtist = (artistLink: string) => instance.get<Artist>(artistLink).then((res) => res.data);
+
+  getArtwork = (params: Params = { size: 20 }) =>
+    instance.get<ArtworkResponse>(this.endpoint, { params: params }).then((res) => res.data);
+}
+
 export { instance };
+export default APIClient;

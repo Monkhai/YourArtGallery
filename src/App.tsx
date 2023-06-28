@@ -2,8 +2,8 @@ import { useState } from 'react';
 import HomeScreen from './Screens/HomeScreen';
 import NavBar from './components/NavBar/NavBar';
 import ArtScreen from './Screens/ArtScreen';
-import { Art } from './hooks/useArtworks';
 import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Art } from './hooks/useGetArtwork';
 
 function App() {
   const [selectedArt, setSelectedArt] = useState<Art | null>(null);

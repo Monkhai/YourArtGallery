@@ -1,20 +1,21 @@
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import { colors } from '../utilities/colors';
-import { Art } from '../hooks/useArtworks';
+
 import { useParams } from 'react-router-dom';
-import useArtist from '../hooks/useArtist';
+import useGetArtist from '../hooks/useGetArtist';
+import { Art } from '../hooks/useGetArtwork';
 
 interface Props {
   art: Art | null;
 }
 
 const ArtScreen = ({ art }: Props) => {
-  const { id } = useParams();
   const imageVersion = 'normalized';
-
   const artistLink = art?._links.artists.href;
+  const { id } = useParams();
+  const { data: artist, error } = useGetArtist(artistLink, id);
 
-  const artist = useArtist(artistLink, id);
+  if (error) return <Text>{error.message}</Text>;
 
   return (
     <Flex
