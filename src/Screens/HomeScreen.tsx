@@ -14,11 +14,11 @@ interface Props {
 }
 
 const HomeScreen = ({ onArtClick }: Props) => {
-  const { data, error, isFetchingNextPage, fetchNextPage } = useGetArtwork();
+  const { data, error, isLoading, isFetchingNextPage, fetchNextPage } = useGetArtwork();
 
   if (error) return <Text>{error.message}</Text>;
 
-  if (isFetchingNextPage) {
+  if (isLoading) {
     return (
       <Box bgGradient={colors.primaryGraidient} h={'auto'} minHeight={'100vh'}>
         <Grid
