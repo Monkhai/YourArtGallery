@@ -9,6 +9,7 @@ const instance = axios.create({
 
 // Placeholder token
 let token = '';
+let tokenExpirationDate: number;
 
 const getClientCredentials = async () => {
   const clientId = '70252995ceb28017ac70';
@@ -21,20 +22,18 @@ const getClientCredentials = async () => {
     });
 
     token = response.data.token;
+    tokenExpirationDate = new Date(response.data.expires_at).getTime();
   } catch (error) {
     console.log(error);
     throw error;
   }
 };
 
-// Get initial token
-getClientCredentials();
-
 // Add a request interceptor
 instance.interceptors.request.use(
   async (config) => {
-    // Get a new token before each request
-    await getClientCredentials();
+    if (!token || (tokenExpirationDate && Date.now() >= tokenExpirationDate))
+      await getClientCredentials();
 
     // Set the header with the new token
     config.headers['X-Xapp-Token'] = token;
