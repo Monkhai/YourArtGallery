@@ -1,4 +1,4 @@
-import { Box, Button, Grid, GridItem, Spinner, Text } from '@chakra-ui/react';
+import { Box, Grid, GridItem, Spinner, Text } from '@chakra-ui/react';
 import AppCard from '../components/AppCard';
 import { colors } from '../utilities/colors';
 import CardSkeleton from '../components/CardSkeleton';
@@ -15,8 +15,7 @@ interface Props {
 }
 
 const HomeScreen = ({ onArtClick }: Props) => {
-  const { data, error, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } =
-    useGetArtwork();
+  const { data, error, isLoading, fetchNextPage, hasNextPage } = useGetArtwork();
   const fetchedArtCount =
     data?.pages.reduce((acc, page) => acc + page._embedded.artworks.length, 0) || 0;
 
